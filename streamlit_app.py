@@ -1,25 +1,22 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
 
-    support = st.slider("Masukkan Nilai Batas Minimum Support", min_value=0.1,
-                        max_value=0.9, value=0.15,
-                        help=support_helper)
+# Streamlit
+with st.sidebar:
+    st.sidebar.title("Source Code")
+    st.sidebar.info(
+        """
+        <https://github.com/TetukoAnglingKusumo/STREAMLIT-APP>
+        """
+    )
+    uploaded_file = st.file_uploader("Choose a XLSX file", type="xlsx")
 
-    confidence = st.slider("Masukkan Nilai Batas Minimum Confidence", min_value=0.1,
-                        max_value=0.9, value=0.6, help=confidence_helper)
-
-    association_rules = apriori(preprocessing_data(), min_support=support, min_confidence=confidence,min_lift=1)
-    association_results = association_rules
-
-    pd.set_option('max_colwidth', 1000)
-
-    Result=pd.DataFrame(columns=['Rule','Support','Confidence'])
-    for item in association_results:
-        pair = item[2]
-        for i in pair:
-            items = str([x for x in i[0]])
-            if i[3]!=1:
-                Result=Result.append({
-                    'Rule':str([x for x in i[0]])+ " -> " +str([x for x in i[1]]),
-                    'Support':str(round(item[1]*100,2))+'%',
-                    'Confidence':str(round(i[2] *100,2))+'%'
-                    },ignore_index=True)
-    Result
+if uploaded_file:
+    df = pd.read_excel(uploaded_file, skiprows=[0,1])
+    st.title("Streamlit Apps")
+    st.markdown("## Dataset")
+    st.write('Jumlah Data :',len(df))
+    with st.expander("Expand **Raw Data**"):
+        mod_data()
+        st.dataframe(df)
