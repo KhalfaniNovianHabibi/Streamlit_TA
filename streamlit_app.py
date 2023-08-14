@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.metrics import silhouette_samples, silhouette_score
 
-#Fungsi
-def modifikasi_data():
-    # Umur
+#Usia
+def modifikasi_usia():
     df['USIA'] = pd.cut(
         x=df['USIA'],
         bins=[0,17,64,np.inf],
@@ -16,7 +18,7 @@ with st.sidebar:
     st.sidebar.title("Source Code")
     st.sidebar.info(
         """
-        <https://github.com/TetukoAnglingKusumo/STREAMLIT-APP>
+        <https://github.com/KhalfaniNovianHabibi/Streamlit_TA/>
         """
     )
     uploaded_file = st.file_uploader("Unggah File XLSX", type="xlsx")
@@ -27,5 +29,7 @@ if uploaded_file:
     st.markdown("## Dataset")
     st.write('Jumlah Data :',len(df))
     with st.expander("Data Asli"):
-        modifikasi_data()
+        modifikasi_usia()
         st.dataframe(df)
+    
+    st.markdown('---')
