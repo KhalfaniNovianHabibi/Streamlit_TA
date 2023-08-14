@@ -18,5 +18,4 @@ if uploaded_file:
     st.markdown("## Dataset")
     st.write('Jumlah Data :',len(df))
     with st.expander("Expand **Raw Data**"):
-        mod_data()
         st.dataframe(df)
