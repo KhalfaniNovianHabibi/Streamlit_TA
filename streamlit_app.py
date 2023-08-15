@@ -45,9 +45,10 @@ if uploaded_file:
     
     label_encoder = LabelEncoder()
     df['diagnosa_encoded'] = label_encoder.fit_transform(df['DIAGNOSA'])
+    df['usia_encoded'] = label_encoder.fit_transform(df['USIA'])
 
     kmeans = KMeans(n_clusters=nilai_k, random_state=0, n_init=10)
-    kmeans.fit(df[['diagnosa_encoded']])
+    kmeans.fit(df[['diagnosa_encoded','usia_encoded']])
 
     labels = kmeans.labels_
     centroids = kmeans.cluster_centers_
