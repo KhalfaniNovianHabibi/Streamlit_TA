@@ -8,12 +8,10 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.metrics import silhouette_samples, silhouette_score
 
 #Usia
-def modifikasi_usia():
-    df['USIA'] = pd.cut(
-        x=df['USIA'],
-        bins=[0,17,64,np.inf],
-        labels=['Anak-Anak','Dewasa','Lansia']
-        )
+def label_encoder():
+    df['DIAGNOSA'] = LabelEncoder().fit_transform(df['DIAGNOSA'])
+    df['JEN. KEL'] = LabelEncoder().fit_transform(df['JEN. KEL'])
+    
 
 # Streamlit
 with st.sidebar:
@@ -32,34 +30,36 @@ if uploaded_file:
     st.write('Jumlah Data :',len(df))
     with st.expander("Data"):
         st.dataframe(df)
-    with st.expander("Data"):
-        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
 
     st.markdown('---')
     
     #Algoritma K-Means
     st.markdown("## K-Means")
 
-    penjelasan_k = ''' K pada K-means clustering menandakan jumlah kluster yang digunakan. '''
-    nilai_k = st.slider("Pilih Nilai 'K'", min_value=1,
-                        max_value=15, value=5,
-                        help=penjelasan_k)
-    
-    label_encoder = LabelEncoder()
-    df['diagnosa_encoded'] = label_encoder.fit_transform(df['DIAGNOSA'])
-    df['usia_encoded'] = label_encoder.fit_transform(df['USIA'])
+    with st.expander("Data Fitur"):
+        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
 
-    kmeans = KMeans(nilai_k, random_state=0, n_init=10)
-    kmeans.fit(df[['diagnosa_encoded','usia_encoded']])
-
-    fig, ax = plt.subplots(figsize=(16, 9))
-    #Create scatterplot
-    ax = sns.scatterplot(
-        ax=ax,
-        x=df.diagnosa_encoded,
-        y=df.usia_encoded,
-        hue=kmeans.labels_,
-        palette=sns.color_palette("colorblind", n_colors=nilai_k),
-        legend=None,
+    kol_cluster = st.multiselect(
+    "Pilih Kolom Untuk Clustering",
+    ['JEN. KEL','USIA','DIAGNOSA'],
+    default=['DIAGNOSA','USIA'],
     )
-    fig
+    X = df[kol_cluster+['NO']]
+
+    penjelasan_k = ''' K pada K-means clustering menandakan jumlah kluster yang digunakan. '''
+    nilai_k = st.slider("Pilih Nilai 'K'", min_value=1, max_value=15, value=5, help=penjelasan_k)
+    
+    kmeans = KMeans(nilai_k, random_state=0, n_init=10)
+    labels = kmeans.fit_predict(data = X, key = 'NO')
+
+    # Visualization
+    pilih_x = st.selectbox('Select x column:', ('NO','JEN. KEL','USIA','DIAGNOSA'))
+    pilih_y = st.selectbox('Select y column:', ('NO','JEN. KEL','USIA','DIAGNOSA'))
+    st.write(pilih_x)
+    plt.style.context('seaborn-whitegrid')
+    plt.scatter(df[[pilih_x]].collect()[pilih_x],
+                df[[pilih_y]].collect()[pilih_y],
+                c=labels[['CLUSTER_ID']].collect()['CLUSTER_ID'])
+    plt.xlabel(pilih_x)
+    plt.ylabel(pilih_y)
+    st.pyplot()
