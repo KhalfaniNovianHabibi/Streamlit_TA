@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.metrics import silhouette_samples, silhouette_score
@@ -47,26 +48,17 @@ if uploaded_file:
     df['diagnosa_encoded'] = label_encoder.fit_transform(df['DIAGNOSA'])
     df['usia_encoded'] = label_encoder.fit_transform(df['USIA'])
 
-    kmeans = KMeans(n_clusters=nilai_k, random_state=0, n_init=10)
+    kmeans = KMeans(nilai_k, random_state=0, n_init=10)
     kmeans.fit(df[['diagnosa_encoded','usia_encoded']])
 
-    labels = kmeans.labels_
-    centroids = kmeans.cluster_centers_
-
-    # Plot the data points and cluster centroids
-    plt.figure(figsize=(8, 6))
-    plt.scatter(df['diagnosa_encoded'], df['usia_encoded'], c=labels, cmap='rainbow', marker='o', edgecolors='k', alpha=0.7)
-    plt.scatter(centroids['diagnosa_encoded'], centroids['usia_encoded'], c='black', marker='X', s=100, label='Centroids')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    plt.title(f'K-Means Clustering with {nilai_k} Clusters')
-    plt.legend()
-    st.pyplot(plt)
-
-    # Display cluster centroids
-    st.subheader("Cluster Centroids")
-    st.write(centroids)
-
-    # Display cluster assignments for each data point
-    st.subheader("Cluster Assignments")
-    st.write(labels)
+    fig, ax = plt.subplots(figsize=(16, 9))
+    #Create scatterplot
+    ax = sns.scatterplot(
+        ax=ax,
+        x=df.diagnosa_encoded,
+        y=df.usia_encoded,
+        hue=kmeans.labels_,
+        palette=sns.color_palette("colorblind", n_colors=nilai_k),
+        legend=None,
+    )
+    fig
