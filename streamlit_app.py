@@ -64,8 +64,8 @@ if uploaded_file:
         st.dataframe(data)
 
 # Scatter Plot 2D
-    pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
-    pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
+    pilih_x = st.selectbox('Pilih Kolom x:', ('DIAGNOSA','JEN. KEL','USIA'))
+    pilih_y = st.selectbox('Pilih Kolom y:', ('USIA','DIAGNOSA','JEN. KEL'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
     plt.scatter(data[pilih_x], data[pilih_y])
@@ -73,6 +73,23 @@ if uploaded_file:
     plt.ylabel(pilih_y)
     st.pyplot()
 
-# 3d visualization
+# Scatter Plot 3D
     fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL')
     st.plotly_chart(fig, use_container_width=True)
+
+# Elbow Method
+    res = []
+    num_cluster_ranges = range(2, 10)
+
+    for cluster_count in num_cluster_ranges:
+        kmeans = KMeans(n_clusters=cluster_count)
+        df['CLUSTER_ID'] = kmeans.fit_predict(df[['FEATURE_1', 'FEATURE_2']])
+        df['DISTANCE2'] = (df['FEATURE_1'] - kmeans.cluster_centers_[df['CLUSTER_ID']]) ** 2 \
+                        + (df['FEATURE_2'] - kmeans.cluster_centers_[df['CLUSTER_ID']]) ** 2
+        count_by_cluster = df.groupby('CLUSTER_ID')['DISTANCE2'].agg(['mean']).reset_index()
+        res.append(count_by_cluster['mean'].values[0])
+
+    plt.plot(num_cluster_ranges, res, marker='*')
+    plt.xlabel('Number of Clusters')
+    plt.ylabel('Average Squared Distance')
+    plt.show()
