@@ -6,10 +6,10 @@ import matplotlib.cm as cm
 import plotly.express as px
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder
-
 import seaborn as sns
 from sklearn.metrics import silhouette_samples, silhouette_score
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #Usia
 def label_encoder():
@@ -36,15 +36,8 @@ if uploaded_file:
         st.dataframe(df)
 
     with st.expander("Chart Usia Pasien"):
-        st.sidebar.subheader("Histogram Options")
-        bins = st.sidebar.slider("Number of Bins", min_value=1, max_value=100, value=20)
         plt.figure(figsize=(8, 6))
-        sns.histplot(data=df, x='USIA', bins=bins, kde=False)
-        st.pyplot()
-    
-    with st.expander("Chart Usia Pasien"):
-        plt.figure(figsize=(8, 6))
-        sns.kdeplot(data=df, x='USIA')
+        sns.histplot(data=df, x='USIA', bins=20, kde=True)
         st.pyplot()
 
     st.markdown('---')
