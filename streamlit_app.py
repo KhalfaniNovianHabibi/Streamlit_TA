@@ -77,19 +77,27 @@ if uploaded_file:
     fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL')
     st.plotly_chart(fig, use_container_width=True)
 
-# Elbow Method
-    res = []
-    num_cluster_ranges = range(2, 10)
-
-    for cluster_count in num_cluster_ranges:
-        kmeans = KMeans(n_clusters=cluster_count)
-        df['CLUSTER_ID'] = kmeans.fit_predict(df[['FEATURE_1', 'FEATURE_2']])
-        df['DISTANCE2'] = (df['FEATURE_1'] - kmeans.cluster_centers_[df['CLUSTER_ID']]) ** 2 \
-                        + (df['FEATURE_2'] - kmeans.cluster_centers_[df['CLUSTER_ID']]) ** 2
-        count_by_cluster = df.groupby('CLUSTER_ID')['DISTANCE2'].agg(['mean']).reset_index()
-        res.append(count_by_cluster['mean'].values[0])
-
-    plt.plot(num_cluster_ranges, res, marker='*')
-    plt.xlabel('Number of Clusters')
-    plt.ylabel('Average Squared Distance')
-    plt.show()
+# Silhouette Score
+    avg_silh_by_cluster = labels.agg([('avg','SLIGHT_SILHOUETTE','SLIGHT_SILHOUETTE')],\
+                                           group_by='CLUSTER_ID')
+    silhouette_avg = labels.agg([('avg','SLIGHT_SILHOUETTE','SLIGHT_SILHOUETTE')]).values[0][0]
+    n_clusters=len(avg_silh_by_cluster)
+    y_lower = 10
+    for i in range(n_clusters):
+        ith_cluster_silhouette_values = labels.filter(f'CLUSTER_ID={i}')[['SLIGHT_SILHOUETTE']]\
+                                        .collect()['SLIGHT_SILHOUETTE'].values
+ 
+        ith_cluster_silhouette_values.sort()
+ 
+        size_cluster_i = ith_cluster_silhouette_values.shape[0]
+        y_upper = y_lower + size_cluster_i
+        
+        plt.title(f'AVG silhouette - {silhouette_avg}')
+        plt.vlines(silhouette_avg,y_lower,y_upper,color='red',linestyles='--')
+        color = cm.nipy_spectral(float(i) / n_clusters)
+        plt.fill_betweenx(np.arange(y_lower, y_upper),
+                              0, ith_cluster_silhouette_values,
+                              facecolor=color, edgecolor=color, alpha=0.7)
+        y_lower = y_upper + 10
+    st.sidebar.pyplot()
+    st.write('Silhouette avg score = ',silhouette_avg)
