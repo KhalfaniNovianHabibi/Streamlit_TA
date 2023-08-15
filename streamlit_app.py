@@ -80,5 +80,5 @@ if uploaded_file:
     st.pyplot(fig)
 
 # Scatter Plot 3D
-    fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL',color=labels)
+    fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL',c=labels)
     st.plotly_chart(fig, use_container_width=True)
