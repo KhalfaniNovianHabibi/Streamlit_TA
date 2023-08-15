@@ -35,10 +35,10 @@ if uploaded_file:
     with st.expander("Data"):
         st.dataframe(df)
 
-        with st.expander("Chart Usia Pasien"):
-            plt.figure(figsize=(8, 6))
-            sns.histplot(data=df, x='USIA', bins=20, kde=True)
-            st.pyplot()
+    with st.expander("Chart Usia Pasien"):
+        plt.figure(figsize=(8, 6))
+        sns.histplot(data=df, x='USIA', bins=20, kde=True)
+        st.pyplot()
 
     st.markdown('---')
     
@@ -85,14 +85,16 @@ if uploaded_file:
 
 # Sidebar elbow
     with st.expander("Elbow Method"):
-        distorsi=[]
+        distorsi = []
         k_tes = range(2, 10)
         for k in k_tes:
             kmeans = KMeans(n_clusters=k, random_state=0, n_init=10)
-            kmeans.fit(data[['DIAGNOSA','USIA']])
+            kmeans.fit(data[['DIAGNOSA', 'USIA']])
             distorsi.append(kmeans.inertia_)
+
+        plt.figure(figsize=(8, 6))
         plt.plot(k_tes, distorsi, 'bx-')
         plt.xlabel('Number of Clusters (k)')
         plt.ylabel('Distortion')
         plt.title('Elbow Method')
-        plt.show()
+        st.pyplot()
