@@ -74,5 +74,5 @@ if uploaded_file:
     st.pyplot()
 
 # 3d visualization
-    fig = px.scatter_3d(df, x='DIAGNOSIS', y='USIA', z='JEN. KEL')
+    fig = px.scatter_3d(data, x='DIAGNOSIS', y='USIA', z='JEN. KEL')
     st.plotly_chart(fig, use_container_width=True)
