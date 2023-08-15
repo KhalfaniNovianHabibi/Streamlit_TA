@@ -44,8 +44,10 @@ if uploaded_file:
     #Algoritma K-Means
     st.markdown("## K-Means")
 
+    data = df[['NO','JEN. KEL','USIA','DIAGNOSA']]
+
     with st.expander("Data Fitur"):
-        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
+        st.dataframe(data)
 
     label_encoder()
 
@@ -55,23 +57,20 @@ if uploaded_file:
     ['JEN. KEL','USIA','DIAGNOSA'],
     default=['DIAGNOSA','USIA'],
     )
-    X = df[kol_cluster+['NO']]
+    X = data[kol_cluster+['NO']]
 
     penjelasan_k = ''' K pada K-means clustering menandakan jumlah kluster yang digunakan. '''
     nilai_k = st.slider("Pilih Nilai 'K'", min_value=2, max_value=10, value=5, help=penjelasan_k)
     
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
-    labels = kmeans.fit_predict(df)
-
-    with st.expander("Data Fitur"):
-        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
+    labels = kmeans.fit_predict(data)
 
     # Visualization
     pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
-    plt.scatter(df[pilih_x], df[pilih_y], c=df[labels])
+    plt.scatter(data[pilih_x], data[pilih_y], c=data[labels])
     plt.xlabel(pilih_x)
     plt.ylabel(pilih_y)
     st.pyplot()
