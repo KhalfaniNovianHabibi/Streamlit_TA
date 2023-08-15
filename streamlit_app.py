@@ -67,11 +67,12 @@ if uploaded_file:
     pilih_x = st.selectbox('Pilih Kolom x:', ('DIAGNOSA','JEN. KEL','USIA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('USIA','DIAGNOSA','JEN. KEL'))
     st.write(pilih_x)
+    fig, ax = plt.subplots()  # Create a figure and axes
     plt.style.context('seaborn-whitegrid')
-    plt.scatter(data[pilih_x], data[pilih_y], c=labels)
-    plt.xlabel(pilih_x)
-    plt.ylabel(pilih_y)
-    st.pyplot()
+    ax.scatter(data[pilih_x], data[pilih_y], c=labels)
+    ax.set_xlabel(pilih_x)
+    ax.set_ylabel(pilih_y)
+    st.pyplot(fig)
 
 # Scatter Plot 3D
     fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL',color=labels)
