@@ -60,6 +60,9 @@ if uploaded_file:
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
     labels = kmeans.fit_predict(data)
 
+    with st.expander("Data Fitur"):
+        st.dataframe(data)
+
 # Scatter Plot 2D
     pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
@@ -69,3 +72,7 @@ if uploaded_file:
     plt.xlabel(pilih_x)
     plt.ylabel(pilih_y)
     st.pyplot()
+
+# 3d visualization
+    fig = px.scatter_3d(df, x='DIAGNOSIS', y='USIA', z='JEN. KEL')
+    st.plotly_chart(fig, use_container_width=True)
