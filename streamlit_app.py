@@ -59,16 +59,14 @@ if uploaded_file:
     nilai_k = st.slider("Pilih Nilai 'K'", min_value=2, max_value=10, value=5, help=penjelasan_k)
     
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
-    labels = kmeans.fit_predict(X)
+    labels = kmeans.fit_predict(df)
 
     # Visualization
     pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
-    plt.scatter(df[[pilih_x]].collect()[pilih_x],
-                df[[pilih_y]].collect()[pilih_y],
-                c=labels[['CLUSTER_ID']].collect()['CLUSTER_ID'])
+    plt.scatter(df[pilih_x], df[pilih_y], c=df[labels])
     plt.xlabel(pilih_x)
     plt.ylabel(pilih_y)
     st.pyplot()
