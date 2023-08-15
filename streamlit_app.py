@@ -2,10 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+import matplotlib.cm as cm
+import plotly.express as px
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder
+
+
+import seaborn as sns
 from sklearn.metrics import silhouette_samples, silhouette_score
+
+
+
+
 
 #Usia
 def label_encoder():
@@ -54,8 +62,8 @@ if uploaded_file:
     labels = kmeans.fit_predict(X)
 
     # Visualization
-    pilih_x = st.selectbox('Select x column:', ('NO','JEN. KEL','USIA','DIAGNOSA'))
-    pilih_y = st.selectbox('Select y column:', ('NO','JEN. KEL','USIA','DIAGNOSA'))
+    pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
+    pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
     plt.scatter(df[[pilih_x]].collect()[pilih_x],
