@@ -68,11 +68,11 @@ if uploaded_file:
     pilih_y = st.selectbox('Pilih Kolom y:', ('USIA','DIAGNOSA','JEN. KEL'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
-    plt.scatter(data[pilih_x], data[pilih_y])
+    plt.scatter(data[pilih_x], data[pilih_y], c=labels)
     plt.xlabel(pilih_x)
     plt.ylabel(pilih_y)
     st.pyplot()
 
 # Scatter Plot 3D
-    fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL')
+    fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL',color=labels)
     st.plotly_chart(fig, use_container_width=True)
