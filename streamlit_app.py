@@ -17,8 +17,8 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 
 #Usia
 def label_encoder():
-    df['DIAGNOSA'] = LabelEncoder().fit_transform(df['DIAGNOSA'])
-    df['JEN. KEL'] = LabelEncoder().fit_transform(df['JEN. KEL'])
+    data['DIAGNOSA'] = LabelEncoder().fit_transform(data['DIAGNOSA'])
+    data['JEN. KEL'] = LabelEncoder().fit_transform(data['JEN. KEL'])
     
 
 # Streamlit
