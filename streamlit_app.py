@@ -35,10 +35,10 @@ if uploaded_file:
     with st.expander("Data"):
         st.dataframe(df)
 
-    with st.expander("Chart Usia Pasien"):
-        plt.figure(figsize=(8, 6))
-        sns.histplot(data=df, x='USIA', bins=20, kde=True)
-        st.pyplot()
+        with st.expander("Chart Usia Pasien"):
+            plt.figure(figsize=(8, 6))
+            sns.histplot(data=df, x='USIA', bins=20, kde=True)
+            st.pyplot()
 
     st.markdown('---')
     
