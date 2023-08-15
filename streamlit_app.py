@@ -35,6 +35,22 @@ if uploaded_file:
     with st.expander("Data"):
         st.dataframe(df)
 
+    # Counting occurrences for 'JEN. KEL'
+    st.markdown("## JEN. KEL")
+    jen_kel_counts = df['JEN. KEL'].value_counts()
+    st.bar_chart(jen_kel_counts)
+
+    # Counting occurrences for 'USIA'
+    st.markdown("## USIA")
+    plt.figure(figsize=(10, 6))
+    sns.histplot(df['USIA'], bins=20, kde=True)
+    st.pyplot()
+
+    # Counting occurrences for 'DIAGNOSA'
+    st.markdown("## DIAGNOSA")
+    diagnosa_counts = df['DIAGNOSA'].value_counts()
+    st.bar_chart(diagnosa_counts)
+
     st.markdown('---')
     
 #Algoritma K-Means
@@ -67,9 +83,9 @@ if uploaded_file:
     pilih_x = st.selectbox('Pilih Kolom x:', ('DIAGNOSA','JEN. KEL','USIA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('USIA','DIAGNOSA','JEN. KEL'))
     st.write(pilih_x)
-    fig, ax = plt.subplots()  # Create a figure and axes
+    fig, ax = plt.subplots()
     plt.style.context('seaborn-whitegrid')
-    ax.scatter(data[pilih_x], data[pilih_y], c=labels)
+    ax.scatter(data[pilih_x], data[pilih_y], color=labels)
     ax.set_xlabel(pilih_x)
     ax.set_ylabel(pilih_y)
     st.pyplot(fig)
