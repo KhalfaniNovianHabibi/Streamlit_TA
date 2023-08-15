@@ -7,12 +7,8 @@ import plotly.express as px
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder
 
-
 import seaborn as sns
 from sklearn.metrics import silhouette_samples, silhouette_score
-
-
-
 
 
 #Usia
@@ -41,7 +37,7 @@ if uploaded_file:
 
     st.markdown('---')
     
-    #Algoritma K-Means
+#Algoritma K-Means
     st.markdown("## K-Means")
 
     data = df[['NO','JEN. KEL','USIA','DIAGNOSA']]
@@ -50,7 +46,6 @@ if uploaded_file:
         st.dataframe(data)
 
     label_encoder()
-
 
     kol_cluster = st.multiselect(
     "Pilih Kolom Untuk Clustering",
@@ -65,12 +60,12 @@ if uploaded_file:
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
     labels = kmeans.fit_predict(data)
 
-    # Visualization
+# Scatter Plot 2D
     pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
     pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
-    plt.scatter(data[pilih_x], data[pilih_y], c=data[labels])
+    plt.scatter(data[pilih_x], data[pilih_y])
     plt.xlabel(pilih_x)
     plt.ylabel(pilih_y)
     st.pyplot()
