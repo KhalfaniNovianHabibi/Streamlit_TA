@@ -35,21 +35,17 @@ if uploaded_file:
     with st.expander("Data"):
         st.dataframe(df)
 
-    # Counting occurrences for 'JEN. KEL'
-    st.markdown("## JEN. KEL")
-    jen_kel_counts = df['JEN. KEL'].value_counts()
-    st.bar_chart(jen_kel_counts)
-
-    # Counting occurrences for 'USIA'
-    st.markdown("## USIA")
-    plt.figure(figsize=(10, 6))
-    sns.histplot(df['USIA'], bins=20, kde=True)
-    st.pyplot()
-
-    # Counting occurrences for 'DIAGNOSA'
-    st.markdown("## DIAGNOSA")
-    diagnosa_counts = df['DIAGNOSA'].value_counts()
-    st.bar_chart(diagnosa_counts)
+    with st.expander("Chart Usia Pasien"):
+        st.sidebar.subheader("Histogram Options")
+        bins = st.sidebar.slider("Number of Bins", min_value=1, max_value=100, value=20)
+        plt.figure(figsize=(8, 6))
+        sns.histplot(data=df, x='USIA', bins=bins, kde=False)
+        st.pyplot()
+    
+    with st.expander("Chart Usia Pasien"):
+        plt.figure(figsize=(8, 6))
+        sns.kdeplot(data=df, x='USIA')
+        st.pyplot()
 
     st.markdown('---')
     
