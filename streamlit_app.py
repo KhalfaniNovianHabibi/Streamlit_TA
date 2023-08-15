@@ -49,7 +49,7 @@ if uploaded_file:
 
     label_encoder()
     with st.expander("Data Fitur"):
-    st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
+        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
 
     kol_cluster = st.multiselect(
     "Pilih Kolom Untuk Clustering",
