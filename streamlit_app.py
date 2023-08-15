@@ -55,8 +55,8 @@ if uploaded_file:
 
     # Plot the data points and cluster centroids
     plt.figure(figsize=(8, 6))
-    plt.scatter(df[:, 0], df[:, 1], c=labels, cmap='rainbow', marker='o', edgecolors='k', alpha=0.7)
-    plt.scatter(centroids[:, 0], centroids[:, 1], c='black', marker='X', s=100, label='Centroids')
+    plt.scatter(df['diagnosa_encoded'], df['usia_encoded'], c=labels, cmap='rainbow', marker='o', edgecolors='k', alpha=0.7)
+    plt.scatter(centroids['diagnosa_encoded'], centroids['usia_encoded'], c='black', marker='X', s=100, label='Centroids')
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
     plt.title(f'K-Means Clustering with {nilai_k} Clusters')
