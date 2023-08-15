@@ -91,7 +91,6 @@ if uploaded_file:
  
         size_cluster_i = ith_cluster_silhouette_values.shape[0]
         y_upper = y_lower + size_cluster_i
-        
         plt.title(f'AVG silhouette - {silhouette_avg}')
         plt.vlines(silhouette_avg,y_lower,y_upper,color='red',linestyles='--')
         color = cm.nipy_spectral(float(i) / n_clusters)
