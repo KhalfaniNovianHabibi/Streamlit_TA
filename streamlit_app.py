@@ -50,23 +50,6 @@ if uploaded_file:
     with st.expander("Data Fitur"):
         st.dataframe(data)
 
-
-# Sidebar elbow
-    with st.expander("Elbow Method"):
-        distorsi = []
-        k_tes = range(2, 10)
-        for k in k_tes:
-            kmeans = KMeans(n_clusters=k, random_state=0, n_init=10)
-            kmeans.fit(data[['DIAGNOSA', 'USIA']])
-            distorsi.append(kmeans.inertia_)
-
-        plt.figure(figsize=(8, 6))
-        plt.plot(k_tes, distorsi, 'bx-')
-        plt.xlabel('Number of Clusters (k)')
-        plt.ylabel('Distortion')
-        plt.title('Elbow Method')
-        st.pyplot()
-
     label_encoder()
 
     kol_cluster = st.multiselect(
@@ -84,6 +67,22 @@ if uploaded_file:
 
     with st.expander("Data Fitur"):
         st.dataframe(data)
+
+# Sidebar elbow
+    with st.expander("Elbow Method"):
+        distorsi = []
+        k_tes = range(2, 10)
+        for k in k_tes:
+            kmeans = KMeans(n_clusters=k, random_state=0, n_init=10)
+            kmeans.fit(data[['DIAGNOSA', 'USIA']])
+            distorsi.append(kmeans.inertia_)
+
+        plt.figure(figsize=(8, 6))
+        plt.plot(k_tes, distorsi, 'bx-')
+        plt.xlabel('Number of Clusters (k)')
+        plt.ylabel('Distortion')
+        plt.title('Elbow Method')
+        st.pyplot()
 
 # Scatter Plot 2D
     pilih_x = st.selectbox('Pilih Kolom x:', ('DIAGNOSA','JEN. KEL','USIA'))
