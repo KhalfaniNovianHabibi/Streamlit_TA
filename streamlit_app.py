@@ -76,27 +76,3 @@ if uploaded_file:
 # Scatter Plot 3D
     fig = px.scatter_3d(data, x='DIAGNOSA', y='USIA', z='JEN. KEL')
     st.plotly_chart(fig, use_container_width=True)
-
-# Silhouette Score
-    avg_silh_by_cluster = labels.agg([('avg','SLIGHT_SILHOUETTE','SLIGHT_SILHOUETTE')],\
-                                           group_by='CLUSTER_ID')
-    silhouette_avg = labels.agg([('avg','SLIGHT_SILHOUETTE','SLIGHT_SILHOUETTE')]).values[0][0]
-    n_clusters=len(avg_silh_by_cluster)
-    y_lower = 10
-    for i in range(n_clusters):
-        ith_cluster_silhouette_values = labels.filter(f'CLUSTER_ID={i}')[['SLIGHT_SILHOUETTE']]\
-                                        .collect()['SLIGHT_SILHOUETTE'].values
- 
-        ith_cluster_silhouette_values.sort()
- 
-        size_cluster_i = ith_cluster_silhouette_values.shape[0]
-        y_upper = y_lower + size_cluster_i
-        plt.title(f'AVG silhouette - {silhouette_avg}')
-        plt.vlines(silhouette_avg,y_lower,y_upper,color='red',linestyles='--')
-        color = cm.nipy_spectral(float(i) / n_clusters)
-        plt.fill_betweenx(np.arange(y_lower, y_upper),
-                              0, ith_cluster_silhouette_values,
-                              facecolor=color, edgecolor=color, alpha=0.7)
-        y_lower = y_upper + 10
-    st.sidebar.pyplot()
-    st.write('Silhouette avg score = ',silhouette_avg)
