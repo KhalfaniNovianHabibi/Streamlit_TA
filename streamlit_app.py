@@ -30,10 +30,11 @@ if uploaded_file:
     st.title("Aplikasi Streamlit")
     st.markdown("## Dataset")
     st.write('Jumlah Data :',len(df))
-    with st.expander("Data Excel"):
-        modifikasi_usia()
+    with st.expander("Data"):
         st.dataframe(df)
-    
+    with st.expander("Data"):
+        st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
+
     st.markdown('---')
     
     #Algoritma K-Means
