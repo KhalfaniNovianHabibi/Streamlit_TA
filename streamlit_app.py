@@ -33,3 +33,9 @@ if uploaded_file:
         st.dataframe(df)
     
     st.markdown('---')
+    st.markdown("## K-Means")
+
+    penjelasan_k = ''' K pada K-means clustering menandakan jumlah kluster yang digunakan. '''
+    nilai_k = st.slider("Pilih Nilai 'K'", min_value=1,
+                        max_value=15, value=5,
+                        help=penjelasan_k)
