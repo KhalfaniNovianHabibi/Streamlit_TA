@@ -28,7 +28,7 @@ if uploaded_file:
     st.title("Aplikasi Streamlit")
     st.markdown("## Dataset")
     st.write('Jumlah Data :',len(df))
-    with st.expander("Data Asli"):
+    with st.expander("Data Excel"):
         modifikasi_usia()
         st.dataframe(df)
     
@@ -39,3 +39,14 @@ if uploaded_file:
     nilai_k = st.slider("Pilih Nilai 'K'", min_value=1,
                         max_value=15, value=5,
                         help=penjelasan_k)
+    
+    label_encoder = LabelEncoder()
+    df['diagnosa_encoded'] = label_encoder.fit_transform(df['DIAGNOSA'])
+
+    kmeans = KMeans(n_clusters=nilai_k, random_state=0, n_init=10)
+    kmeans.fit(df[['diagnosa_encoded']])
+
+    disease_labels = kmeans.labels_
+    df['disease_cluster'] = disease_labels
+    with st.expander("Data Excel"):
+        st.dataframe(df)
