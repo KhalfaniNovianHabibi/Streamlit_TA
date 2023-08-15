@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import silhouette_samples, silhouette_score
 
 #Usia
@@ -50,7 +50,7 @@ if uploaded_file:
     nilai_k = st.slider("Pilih Nilai 'K'", min_value=1, max_value=15, value=5, help=penjelasan_k)
     
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
-    labels = kmeans.fit_predict(data = X, key = 'NO')
+    labels = kmeans.fit_predict(X)
 
     # Visualization
     pilih_x = st.selectbox('Select x column:', ('NO','JEN. KEL','USIA','DIAGNOSA'))
