@@ -61,8 +61,8 @@ if uploaded_file:
     labels = kmeans.fit_predict(data)
 
 # Scatter Plot 2D
-    pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'), index='DIAGNOSA')
-    pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'), index='USIA')
+    pilih_x = st.selectbox('Pilih Kolom x:', ('JEN. KEL','USIA','DIAGNOSA'))
+    pilih_y = st.selectbox('Pilih Kolom y:', ('JEN. KEL','USIA','DIAGNOSA'))
     st.write(pilih_x)
     plt.style.context('seaborn-whitegrid')
     plt.scatter(data[pilih_x], data[pilih_y])
