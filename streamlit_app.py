@@ -39,6 +39,7 @@ if uploaded_file:
     with st.expander("Data Fitur"):
         st.dataframe(df[['NO','JEN. KEL','USIA','DIAGNOSA']])
 
+    label_encoder()
     kol_cluster = st.multiselect(
     "Pilih Kolom Untuk Clustering",
     ['JEN. KEL','USIA','DIAGNOSA'],
@@ -47,7 +48,7 @@ if uploaded_file:
     X = df[kol_cluster+['NO']]
 
     penjelasan_k = ''' K pada K-means clustering menandakan jumlah kluster yang digunakan. '''
-    nilai_k = st.slider("Pilih Nilai 'K'", min_value=1, max_value=15, value=5, help=penjelasan_k)
+    nilai_k = st.slider("Pilih Nilai 'K'", min_value=2, max_value=10, value=5, help=penjelasan_k)
     
     kmeans = KMeans(nilai_k, random_state=0, n_init=10)
     labels = kmeans.fit_predict(X)
